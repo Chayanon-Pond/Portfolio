@@ -10,6 +10,14 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 const BASE_DISTORT = 0.42;
 const BASE_SPEED = 1.6;
 
+// Base blob size by viewport width. Desktop/iPad (>=768) is unchanged at 1.6;
+// phones get a smaller blob so it doesn't dominate the hero.
+function heroScale(w: number) {
+  if (w < 480) return 1.05;
+  if (w < 768) return 1.3;
+  return 1.6;
+}
+
 /** drei's MeshDistortMaterial instance exposes animatable `distort`/`speed`. */
 type DistortMaterial = ComponentRef<typeof MeshDistortMaterial>;
 
@@ -65,6 +73,18 @@ function Blob({ reduced }: { reduced: boolean }) {
     window.addEventListener("pointermove", onMove, { passive: true });
     return () => window.removeEventListener("pointermove", onMove);
   }, [reduced]);
+
+  // Responsive base size: smaller blob on phones, desktop/iPad untouched.
+  // Applied imperatively to the inner mesh (its base scale never animates —
+  // interaction transforms live on the outer group).
+  useEffect(() => {
+    const apply = () => {
+      if (mesh.current) mesh.current.scale.setScalar(heroScale(window.innerWidth));
+    };
+    apply();
+    window.addEventListener("resize", apply);
+    return () => window.removeEventListener("resize", apply);
+  }, []);
 
   const applyDrag = (e: ThreeEvent<PointerEvent>) => {
     const s = state.current;
@@ -227,7 +247,7 @@ function Blob({ reduced }: { reduced: boolean }) {
       >
         <mesh
           ref={mesh}
-          scale={1.6}
+          scale={heroScale(window.innerWidth)}
           onPointerOver={() => {
             if (!reduced) state.current.hovered = true;
           }}
