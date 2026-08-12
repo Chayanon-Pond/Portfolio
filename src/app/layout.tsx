@@ -17,7 +17,7 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
-const SITE_URL = "https://portfolio-chayanon.vercel.app";
+const SITE_URL = "https://chayanon-portfolio.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
