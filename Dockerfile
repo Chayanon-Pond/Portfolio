@@ -12,6 +12,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+# Enable Next.js standalone output for the Docker image (kept off on Vercel).
+ENV BUILD_STANDALONE=true
 RUN npm run build
 
 # ── runner ───────────────────────────────────────────────────────────
