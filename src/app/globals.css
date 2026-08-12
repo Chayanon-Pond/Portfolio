@@ -1,26 +1,344 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Design tokens
+   ============================================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0b;
+  --surface: #101012;
+  --foreground: #ededed;
+  --muted: #8a8a8f;
+  --line: rgba(255, 255, 255, 0.08);
+  --accent: #22e07a; /* emerald-green highlight */
+  --accent-strong: #00e676;
+  --accent-dim: rgba(34, 224, 122, 0.14);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --font-sans: var(--font-display);
+  --font-mono: var(--font-mono);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background: var(--background);
+  scroll-padding-top: 6rem;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-display), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Display type: balance headings, keep body legible and un-orphaned. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+  font-feature-settings: "ss01", "cv01";
+}
+p {
+  text-wrap: pretty;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Hide native cursor only when custom cursor is active (fine pointer) */
+@media (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* Accessible focus ring (never removed; sits above the custom cursor layer) */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Skip link — visually hidden until focused, then pinned top-left. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 10001;
+  transform: translateY(-160%);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: var(--background);
+  padding: 0.6rem 1.1rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--foreground);
+  transition: transform 0.35s var(--ease-expo);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+::selection {
+  background: var(--accent);
+  color: #05130a;
+}
+
+/* Custom slim scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(34, 224, 122, 0.4);
+}
+
+/* ============================================================
+   Reusable utilities
+   ============================================================ */
+
+/* Green highlighted keyword */
+.hl {
+  color: var(--accent);
+}
+
+/* Project tech tags — muted gray at rest, tint to the brand color (set via the
+   inline `--tag` custom property) when the parent `.group` card is hovered.
+   Color/border/background only → no layout shift. Reduced motion neutralises the
+   transition globally, so the color still changes but without animating. */
+.tag-chip {
+  border: 1px solid var(--line);
+  color: var(--muted);
+  background-color: transparent;
+  transition:
+    color 0.28s var(--ease-expo),
+    border-color 0.28s var(--ease-expo),
+    background-color 0.28s var(--ease-expo);
+}
+.group:hover .tag-chip {
+  border-color: var(--tag, var(--accent));
+  color: var(--tag, var(--accent));
+  background-color: color-mix(in srgb, var(--tag, var(--accent)) 12%, transparent);
+}
+
+/* Link with an underline that wipes in from the left (out to the right). */
+.link-wipe {
+  position: relative;
+}
+.link-wipe::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.45s var(--ease-expo);
+}
+.link-wipe:hover::after,
+.link-wipe:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* Soft accent glow that sits behind the hero blob (cheap, GPU-friendly). */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    42% 42% at 50% 44%,
+    rgba(34, 224, 122, 0.16) 0%,
+    rgba(34, 224, 122, 0.05) 38%,
+    transparent 70%
+  );
+}
+
+/* Transform-only infinite marquee track. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Word-level rise reveal. Each word is a clip-mask; its inner span rises
+   from translateY(110%) → 0 with a small stagger so words "settle together".
+   Fail-safe: the resting state is VISIBLE (no transform) — JS only arms the
+   hidden state when it has an observer/trigger wired, and reduced motion pins
+   everything to 0. Padding/negative-margin gives descenders room inside the
+   mask without affecting layout. Transform-only. */
+.reveal-line {
+  display: block;
+}
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* Room top AND bottom so tall caps/ascenders and descenders aren't clipped by
+     the mask; negative margins cancel it out so layout/line-height is unchanged. */
+  padding-top: 0.18em;
+  margin-top: -0.18em;
+  padding-bottom: 0.22em;
+  margin-bottom: -0.22em;
+}
+.word-inner {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ------------------------------------------------------------------
+   Hero above-the-fold intro.
+   Mount-driven and always resolves to the visible end-state (`both`
+   fill = backwards during delay, forwards after) — it can never be
+   left stuck at opacity:0, and it does NOT depend on scroll position
+   or on whether the session-once loader ran.
+   ------------------------------------------------------------------ */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.hero-rise {
+  animation: hero-rise 0.8s var(--ease-expo) both;
+}
+.hero-fade {
+  animation: hero-fade 1s var(--ease-expo) both;
+}
+
+/* ------------------------------------------------------------------
+   IntersectionObserver-driven scroll reveal (fade-up).
+   The default resting state is VISIBLE — JS only adds `.is-armed`
+   (hidden) when it has an observer wired to reveal it, so if JS/IO
+   never runs, or under reduced motion, content stays fully visible.
+   `.is-in` animates to the visible end-state with `both` fill, so it
+   can never be left stuck at opacity:0 once triggered.
+   ------------------------------------------------------------------ */
+.reveal.is-armed {
+  opacity: 0;
+  transform: translate(var(--reveal-x, 0px), var(--reveal-y, 24px));
+}
+.reveal.is-in {
+  animation: reveal-in 0.8s var(--ease-expo) both;
+  animation-delay: var(--reveal-delay, 0s);
+}
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translate(var(--reveal-x, 0px), var(--reveal-y, 24px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+/* Scroll-cue dot bounce — rests at the visible position so it stays
+   visible if neutralised under reduced motion. */
+@keyframes cue-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(10px);
+    opacity: 0.2;
+  }
+}
+.cue-dot {
+  animation: cue-bounce 1.6s ease-in-out infinite;
+}
+
+/* Mono eyebrow / section label */
+.eyebrow {
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(0.7rem, 0.9vw, 0.8rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Editorial line-mask: each line clipped, inner span translated up on reveal */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.04em;
+}
+.line-inner {
+  display: block;
+  will-change: transform;
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Reduced motion: neutralise transforms/animations globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

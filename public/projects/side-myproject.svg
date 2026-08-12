@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" font-family="'Segoe UI', system-ui, -apple-system, Arial, sans-serif">
+  <rect width="1600" height="1000" fill="#f7f8fa"/>
+
+  <!-- dark nav -->
+  <rect width="1600" height="104" fill="#141414"/>
+  <!-- crest -->
+  <path d="M44 22 h56 v40 c0 26 -28 36 -28 36 c0 0 -28 -10 -28 -36 z" fill="#c9a94a" stroke="#7a5c12" stroke-width="2"/>
+  <rect x="58" y="34" width="28" height="12" fill="#111"/><path d="M58 48 h28 v14 c0 10 -14 14 -14 14 c0 0 -14 -4 -14 -14 z" fill="#b23a3a"/>
+  <g fill="#f4f4f4" font-size="26" font-weight="600" text-anchor="middle">
+    <text x="820" y="62">Home</text><text x="960" y="62">About</text><text x="1110" y="62">Contact</text><text x="1240" y="62">Help</text>
+  </g>
+  <rect x="1360" y="30" width="118" height="46" rx="23" fill="none" stroke="#f4f4f4" stroke-width="2"/><text x="1419" y="60" font-size="21" fill="#f4f4f4" text-anchor="middle">Log in</text>
+  <rect x="1490" y="30" width="86" height="46" rx="23" fill="none" stroke="#f4f4f4" stroke-width="2"/><text x="1533" y="60" font-size="18" fill="#f4f4f4" text-anchor="middle">Sign up</text>
+
+  <!-- left heading -->
+  <g fill="#161616" font-weight="800" font-size="62" letter-spacing="-1">
+    <text x="60" y="470">McLAREN — THE</text>
+    <text x="60" y="540">REAL SUPERCAR,</text>
+    <text x="60" y="610">FIERCE ELEGANCE</text>
+  </g>
+  <g fill="#6b7280" font-size="26" font-weight="500">
+    <text x="62" y="672">A light and strong supercar shaped by the</text>
+    <text x="62" y="708">forces of nature. Poised for attack — and</text>
+    <text x="62" y="744">ferociously fast, yet usable every day.</text>
+  </g>
+
+  <!-- center car photo -->
+  <rect x="640" y="300" width="560" height="380" rx="18" fill="#1b1b1f"/>
+  <rect x="640" y="300" width="560" height="380" rx="18" fill="url(#g)" opacity="0.5"/>
+  <defs><radialGradient id="g" cx="35%" cy="30%" r="80%"><stop offset="0%" stop-color="#3a3a44"/><stop offset="100%" stop-color="#0e0e12"/></radialGradient></defs>
+  <!-- supercar silhouette -->
+  <g transform="translate(690 400)">
+    <path d="M20 150 L70 118 C130 70 250 66 330 78 C380 60 430 64 452 96 C468 120 470 138 468 152 L20 152 Z" fill="#eef1f5"/>
+    <path d="M150 96 C200 82 300 84 344 94 L322 120 L176 120 Z" fill="#2b2f38"/>
+    <circle cx="120" cy="152" r="46" fill="#141414"/><circle cx="120" cy="152" r="24" fill="#6b7280"/><circle cx="120" cy="152" r="8" fill="#141414"/>
+    <circle cx="392" cy="152" r="46" fill="#141414"/><circle cx="392" cy="152" r="24" fill="#6b7280"/><circle cx="392" cy="152" r="8" fill="#141414"/>
+    <path d="M452 108 L470 112 L466 128 L452 124 Z" fill="#ff5252"/>
+  </g>
+
+  <!-- right article -->
+  <text x="1250" y="360" font-size="30" font-weight="800" fill="#161616">The McLaren 720S</text>
+  <g fill="#8b91a0" font-size="21" font-weight="500">
+    <text x="1250" y="404">The McLaren 720S coupe is</text>
+    <text x="1250" y="436">purposeful and radical, with</text>
+    <text x="1250" y="468">apex-predator responses.</text>
+    <text x="1250" y="500">Light and strong: 0–60 in an</text>
+    <text x="1250" y="532">incredible 2.8 seconds.</text>
+    <text x="1250" y="588">But raw figures don't tell the</text>
+    <text x="1250" y="620">whole story — pure driver</text>
+    <text x="1250" y="652">engagement, contemporary</text>
+    <text x="1250" y="684">luxury, a thrilling balance.</text>
+  </g>
+</svg>

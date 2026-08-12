@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Chayanon Pond — Developer Portfolio
 
-## Getting Started
+A high-end, single-scroll developer portfolio. Dark theme, emerald-green accent,
+huge editorial typography, and crafted motion — a lagging custom cursor, a
+distorted 3D hero blob, scroll-triggered line reveals, and smooth scrolling.
 
-First, run the development server:
+## Tech
+
+- **Next.js (App Router) + TypeScript + Tailwind CSS v4**
+- **GSAP + ScrollTrigger** — editorial line-mask reveals
+- **Lenis** — smooth scroll, wired to ScrollTrigger (single rAF source)
+- **Framer Motion** — micro-interactions / stagger
+- **React Three Fiber + drei** — one hero blob (`ssr:false`, lazy-loaded)
+
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install      # first time only
+npm run dev      # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build    # production build (must pass cleanly)
+npm run start    # serve the production build locally
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploy to Vercel
 
-## Learn More
+Push the repo to GitHub and import it at [vercel.com/new](https://vercel.com/new).
+Framework is auto-detected as Next.js — no extra config needed. (Or run `vercel`
+from the Vercel CLI.)
 
-To learn more about Next.js, take a look at the following resources:
+## Where to edit contact info
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+All contact details live in **`src/components/Contact.tsx`**:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Email + GitHub are pre-filled near the top (the `EMAIL` and `GITHUB` constants).
+- **Phone, LinkedIn, and address** are left as commented-out `{/* TODO: boss … */}`
+  placeholders inside the "Elsewhere" list — fill in the value and uncomment the
+  block. Phone and address are intentionally empty (private data).
 
-## Deploy on Vercel
+Other content:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Projects** — `src/lib/projects.ts`
+- **Tech stack** — `src/lib/stack.ts`
+- **About / education** — `src/components/About.tsx`
+- **SEO / site URL** — `src/app/layout.tsx` (`SITE_URL` + `metadata`)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Structure
+
+```
+src/
+  app/            layout, page, globals.css (design tokens)
+  components/     Hero, About, Work, ProjectCard, Stack, Contact, …
+    three/        Scene (Canvas + blob) + HeroCanvas (dynamic ssr:false)
+  hooks/          usePrefersReducedMotion, useIsTouch
+  lib/            projects, stack data
+```
+
+## Accessibility & performance
+
+- Only `transform` / `opacity` are animated.
+- `prefers-reduced-motion` disables smooth scroll, blob rotation, parallax, and
+  scrubbed reveals (simple fades remain).
+- Custom cursor is hidden on touch devices and never replaces keyboard focus.
+- One `<Canvas>` (hero only), lazy-loaded with a lower DPR ceiling on mobile.
+```
