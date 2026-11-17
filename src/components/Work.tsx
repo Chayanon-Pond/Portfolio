@@ -25,8 +25,8 @@ export default function Work() {
           />
         </div>
         <p className="max-w-[28ch] text-sm text-muted md:text-right">
-          Four projects spanning IoT, learning platforms, and full-stack web —
-          each live and open-source.
+          Six projects spanning IoT, e-commerce, learning platforms, and
+          full-stack web — each live and open-source.
         </p>
       </div>
 
