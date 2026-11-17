@@ -156,13 +156,13 @@ export const projects: Project[] = [
     id: "ecomacrobiz",
     index: "06",
     title: "ECOMACROBIZ",
-    tagline: "Company website migration from Wix to a custom stack",
+    tagline: "Website & content platform for a B2B brand and digital consultancy",
     problem:
-      "A B2B consulting firm had outgrown Wix Studio — no control over performance, SEO or the content workflow.",
+      "A B2B consultancy (branding, strategy, marketing communications and digital solutions) needed a fast, SEO-friendly site its own team could run — publishing insights and turning visitors into consultation leads.",
     built:
-      "A Next.js 16 + Go (Gin) + PostgreSQL rebuild: every public page, a Knowledge blog with the migrated posts, contact leads, an admin CMS, Google sign-in for members, comments and likes.",
+      "A Next.js 16 + Go (Gin) + PostgreSQL platform: solution and service pages, a Knowledge hub of articles, consultation lead capture, an admin CMS with media management, and Google sign-in for members with comments and likes.",
     impact:
-      "Full ownership of content and SEO on the company's own stack, deployed on Railway with a Cloudflare cut-over runbook.",
+      "The team publishes content and receives leads without a developer in the loop, with full control over performance and SEO; containerised and deployed on Railway.",
     tags: ["Next.js", "TypeScript", "Tailwind", "Go (Gin)", "PostgreSQL", "Docker"],
     live: "https://ecomacrobiz-web-production.up.railway.app/",
     repo: "https://github.com/Chayanon-Pond/ecomacrobiz-web",

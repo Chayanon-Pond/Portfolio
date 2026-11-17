@@ -15,6 +15,11 @@ const ENTRIES: { period: string; title: string; sub: string }[] = [
     sub: "Intensive full-stack training across modern web, APIs, and databases.",
   },
   {
+    period: "2023–2025",
+    title: "Full-Stack Developer — ECOMACROBIZ",
+    sub: "B2B brand & digital consultancy — company website, content platform and lead pipeline (Next.js + Go + PostgreSQL).",
+  },
+  {
     period: "2020–2024",
     title: "King Mongkut's University of Technology North Bangkok (KMUTNB)",
     sub: "Undergraduate studies — the foundations of software and systems.",
