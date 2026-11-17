@@ -134,4 +134,40 @@ export const projects: Project[] = [
     gradient:
       "radial-gradient(120% 120% at 80% 80%, rgba(251,146,60,0.4) 0%, rgba(251,146,60,0) 45%), linear-gradient(135deg, #2a1810 0%, #1a0f0a 60%, #100806 100%)",
   },
+  {
+    id: "shopship",
+    index: "05",
+    title: "ShopShip",
+    tagline: "Thai e-commerce platform with a layered promotion engine",
+    problem:
+      "A Thai shop needed member, wholesale and seasonal pricing (11.11 codes, flash sales, buy-X-get-Y) to stack correctly — without ever overselling a flash sale.",
+    built:
+      "A Next.js 16 storefront and admin console on a Go (Gin) + PostgreSQL API: a 5-layer pricing engine, PromptPay/card checkout, packing and shipping flow, CSV product import, a transactional email outbox, a Thai shop-assistant chatbot and SEO structured data.",
+    impact:
+      "Concurrency-safe checkout (200 buyers racing for 50 units → exactly 50 sold), Lighthouse SEO and accessibility 100, deployed on Railway (Singapore).",
+    tags: ["Next.js", "TypeScript", "Tailwind", "Go (Gin)", "PostgreSQL", "Docker"],
+    live: "https://shopship-web-production.up.railway.app/",
+    repo: "https://github.com/Chayanon-Pond/shopship",
+    image: "/projects/shopship.webp",
+    gradient:
+      "radial-gradient(120% 120% at 15% 20%, rgba(0,113,227,0.45) 0%, rgba(0,113,227,0) 45%), linear-gradient(135deg, #0b1a2e 0%, #08111f 60%, #050a14 100%)",
+  },
+  {
+    id: "ecomacrobiz",
+    index: "06",
+    title: "ECOMACROBIZ",
+    tagline: "Company website migration from Wix to a custom stack",
+    problem:
+      "A B2B consulting firm had outgrown Wix Studio — no control over performance, SEO or the content workflow.",
+    built:
+      "A Next.js 16 + Go (Gin) + PostgreSQL rebuild: every public page, a Knowledge blog with the migrated posts, contact leads, an admin CMS, Google sign-in for members, comments and likes.",
+    impact:
+      "Full ownership of content and SEO on the company's own stack, deployed on Railway with a Cloudflare cut-over runbook.",
+    tags: ["Next.js", "TypeScript", "Tailwind", "Go (Gin)", "PostgreSQL", "Docker"],
+    live: "https://ecomacrobiz-web-production.up.railway.app/",
+    repo: "https://github.com/Chayanon-Pond/ecomacrobiz-web",
+    image: "/projects/ecomacrobiz.webp",
+    gradient:
+      "radial-gradient(120% 120% at 85% 20%, rgba(37,58,255,0.5) 0%, rgba(37,58,255,0) 45%), linear-gradient(135deg, #0d1030 0%, #080a1c 60%, #05060f 100%)",
+  },
 ];
